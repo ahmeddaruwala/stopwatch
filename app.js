@@ -1,0 +1,53 @@
+let startimg = document.getElementById("startimg");
+let stopimg = document.getElementById("stopimg");
+let resetimg = document.getElementById("resetimg");
+
+let displayTime = document.getElementById("displayTime");
+
+let [seconds, minutes, hours] = [0, 0, 0];
+
+let timer = null;
+
+function stopwatch() {
+  seconds++;
+  if (seconds == 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes == 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+
+  let h = hours < 10 ? "0" + hours : hours;
+  let m = minutes < 10 ? "0" + minutes : minutes;
+  let s = seconds < 10 ? "0" + seconds : seconds;
+
+  displayTime.innerHTML = h + ":" + m + ":" + s;
+}
+
+function watchStart() {
+  if (timer !== null) {
+    clearInterval(timer);
+  }
+  timer = setInterval(stopwatch, 1000);
+}
+// console.log("watchStart called");
+
+function watchStop() {
+  clearInterval(timer);
+  timer = null; 
+}
+// console.log("watchStop called");
+
+function watchReset() {
+  clearInterval(timer);
+  [seconds, minutes, hours] = [0, 0, 0];
+  displayTime.innerHTML = "00:00:00";
+  timer = null;
+}
+// console.log("watchReset called");
+
+startimg.addEventListener("click", watchStart);
+stopimg.addEventListener("click", watchStop);
+resetimg.addEventListener("click", watchReset);
